@@ -4,12 +4,14 @@
 - O que é Expo
 - Criação de um projeto Expo
 - Como testar o App na web (Navegador)
+- O que são componentes
 - Para que servem os componentes
 - Como criar um componente
 - Como estilizar um componente
 - O estilo no React Native é igual do CSS da Web
 - O que são propriedades dos componentes
 - Navegações do Expo Router(Stack, Tabs, Drawer, Modal)
+- O que são Hulks?(3 funções principais)
 
 # Comandos Úteis
 
