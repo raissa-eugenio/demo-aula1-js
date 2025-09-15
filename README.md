@@ -11,7 +11,7 @@
 - O estilo no React Native é igual do CSS da Web
 - O que são propriedades dos componentes
 - Navegações do Expo Router(Stack, Tabs, Drawer, Modal)
-- O que são Hulks?(3 funções principais)
+- O que são  Haskells?(3 funções principais)
 
 # Comandos Úteis
 
