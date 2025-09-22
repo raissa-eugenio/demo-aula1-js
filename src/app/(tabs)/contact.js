@@ -2,12 +2,12 @@ import { View, Text, Button, StyleSheet } from 'react-native'
 import { useRouter } from 'expo-router'
 import { useState, useEffect } from 'react'
 import CardUser from '../../components/CardUser'
+import { useUserStore } from '../../stores/useUserStore'
 
 export default function Contact() {
 
     const router = useRouter()
-
-    const [users, setUsers] = useState([])
+    const {users, setUsers} = useUserStore()
     
     useEffect(() => {
         const listUsers = async () => {
@@ -21,24 +21,19 @@ export default function Contact() {
                 console.log("Erro ao carregar lista")
             }
         }
-
         listUsers()
     } , [])
 
-
-
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Página de Contato</Text>
+            <Text>Página de Contato</Text>
             {users.map((user) => (
                 <CardUser 
                     key={user.id}
                     id={user.id}
                     name={user.name}
                     email={user.email}
-                    avatar={user.avatar} 
-                    users={users}
-                    setUsers={setUsers}
+                    avatar={user.avatar}
                 />
             ))}
         </View>
@@ -48,14 +43,7 @@ export default function Contact() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 16,
-    backgroundColor: "#f5f5f5",
-  },
-   title: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginBottom: 20,
-  }
+        justifyContent: 'center',
+        alignItems: 'center',
+    }
 })

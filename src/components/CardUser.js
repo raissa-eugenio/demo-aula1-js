@@ -1,22 +1,35 @@
+
 import { View, Text, StyleSheet, Pressable } from 'react-native'
 import {Image} from 'expo-image'
-import Feather from '@expo/vector-icons/Feather';
+import FontAwesome from '@expo/vector-icons/FontAwesome'
+import Feather from '@expo/vector-icons/Feather'
+import { useRouter } from 'expo-router'
+import { useUserStore } from '../stores/useUserStore'
 
-function CardUser({id, name, email, avatar, users, setUsers}) {
+function CardUser({id, name, email, avatar}) {
+
+  const router = useRouter()
+  const {users, setUsers} = useUserStore()
 
   const handleDelete = async () => {
     const response = await fetch(`http://localhost:3333/profile/${id}`, {
-      method: "DELETE",
-    });
+        method: "DELETE",
+    })
     if(response.ok){
-      console.log("Usuário deletado com sucesso");
-      const updatedUsers = users.filter((user) => user.id !== id);
-      setUsers(updatedUsers);
-    } else {  
-      console.log("Erro ao deletar usuário");
+        console.log("Deletado com sucesso")
+        const updatedUsers = users.filter(user => user.id !== id) // cria um novo array sem o id que foi excluído
+        setUsers(updatedUsers) 
+        console.log("Erro ao deletar")
+    }
   }
-}
-  
+
+  const handleEdit = () => {
+    router.push({
+      pathname: '/edituser',
+      params: { id, name, email, avatar }
+    })
+  }
+
   return (
     <View style={styles.card}>
       <Image 
@@ -24,13 +37,18 @@ function CardUser({id, name, email, avatar, users, setUsers}) {
         source={avatar}
       />
       <View style={styles.info}>
-        <Text style={styles.name}>{name}</Text>
-        <Text style={styles.email}>{email}</Text>
+        <Text style={styles.h1}>{name}</Text>
+        <Text>{email}</Text>
       </View>
       <View>
-        <Pressable onPress={handleDelete} >
-        <Feather name="trash-2" size={24} color="black" />
+        <Pressable onPress={handleEdit}>
+          <Feather name="edit" size={24} color="black" />
         </Pressable>
+        <Pressable onPress={handleDelete}>
+          <FontAwesome name="trash" size={24} color="black" />
+        </Pressable>
+
+        
       </View>
     </View>
   )
@@ -38,42 +56,27 @@ function CardUser({id, name, email, avatar, users, setUsers}) {
 
 const styles = StyleSheet.create({
   card: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#cacacaff",
+    width: '90%',
+    padding: 10,
+    flexDirection: 'row',
+    gap: 15,
+    backgroundColor: "#b8eef0ff",
     borderRadius: 10,
-    padding: 15,
-    marginBottom: 15,
-    width: "90%", // 👈 todos ficam do mesmo tamanho
-    shadowColor: "#000",
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 3,
-    gap: 10,
+    marginBottom: 15
   },
-  avatar: {
-    width: 60,
-    height: 60,
-    borderRadius: 8,
-    marginRight: 12,
-    backgroundColor: "#c7c3c3ff",
-  },
-  info: {
-    flex: 1,
-  },
-  name: {
-    fontWeight: "bold",
-    fontSize: 16,
-    marginBottom: 2,
-  },
-  email: {
-    color: "#333",
-  },
-   image: {
+  image: {
     width: 50,
     height: 60,
     backgroundColor: "#000"
+  },
+  info: {
+    flex: 1,
+    flexDirection: 'column',
+  },
+  h1: {
+    fontSize: 20,
+    fontWeight: 'bold'
   }
-});
+})
 
 export default CardUser
